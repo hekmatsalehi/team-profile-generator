@@ -1,0 +1,20 @@
+
+.custom-header, .custom-card-header {
+    background-color: rgb(174, 77, 2);
+}
+.custom-title-color{
+    color: #fff;
+}
+
+.custom-card-margin {
+    margin-top: 30px;
+    margin-right: 15px;
+    margin-left: 15px;
+    border-radius: 10px 10px 0px 0px;
+
+    
+}
+
+.custom-card-header {
+    border-radius: 10px 10px 0px 0px;
+}

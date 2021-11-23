@@ -6,7 +6,7 @@ const Manager = require('./lib/manager')
 const Engineer = require('./lib/engineer')
 const Intern = require('./lib/intern')
 
-// const generateMangerContent = require('./src/generateHTML')
+// const generateManagerContent = require('./src/generateHTML')
 
 const managerQuestions = [
     {
@@ -95,7 +95,7 @@ const internQuestions = [
     }
 ]    
 
-const generateMangerContent = (manager) => {   
+const generateManagerContent = (manager) => {   
 return`
     <!DOCTYPE html>
     <html lang="en">
@@ -109,17 +109,19 @@ return`
         rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"/>
-        <link src="stylesheet" href="./style.css" />
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <header>
-            <h1>MY TEAM</h1>
+        <header class="jumbotron jumbotron-fluid custom-header">
+            <div class="container">
+                <h1 class="display-3 text-center custom-title-color">Team Profile</h1>
+            </div>
         </header>
-    
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">${manager.name}</h5>
-            <h6 class="card-subtitle">Manager</h6>
+    <div class="d-flex flex-row flex-wrap justify-content-center">
+    <div class="card custom-card-margin" style="width: 18rem;">
+        <div class="card-body custom-card-header">
+            <h5 class="card-title custom-title-color">${manager.name}</h5>
+            <h6 class="card-subtitle custom-title-color">Manager</h6>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${manager.id}</li>
@@ -133,10 +135,10 @@ return`
 
 const generateEngineerContent = (engineer) => {
 return`
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">${engineer.name}</h5>
-            <h6 class="card-subtitle">Engineer</h6>
+    <div class="card custom-card-margin" style="width: 18rem;">
+        <div class="card-body custom-card-header">
+            <h5 class="card-title custom-title-color">${engineer.name}</h5>
+            <h6 class="card-subtitle custom-title-color">Engineer</h6>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${engineer.id}</li>
@@ -151,10 +153,10 @@ return`
 
 const generateInternContent = (intern) => {
 return`
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">${intern.name}</h5>
-            <h6 class="card-subtitle">Intern</h6>
+    <div class="card custom-card-margin" style="width: 18rem;">
+        <div class="card-body custom-card-header">
+            <h5 class="card-title custom-title-color">${intern.name}</h5>
+            <h6 class="card-subtitle custom-title-color">Intern</h6>
         </div>
             <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${intern.id}</li>
@@ -192,8 +194,13 @@ const appendInternContent = internHTMLcontent => {
     })
 }
 
+const htmlEndTag = `
+    </div>
+    </body>
+    </html>`
+
 const endHTMLcontent = () => {
-    fs.appendFile('./dist/index.html', '</body></html>', err => {
+    fs.appendFile('./dist/index.html', htmlEndTag, err => {
         if (err) {
             console.log(err)
             return
@@ -209,18 +216,18 @@ function renderManagerQuestions() {
     .then(managerAns => {
         const {name, id, email, officeNumber} = managerAns
         const manager = new Manager(name, id, email, officeNumber)
-        const managerHTMLcontent = generateMangerContent(manager)
+        const managerHTMLcontent = generateManagerContent(manager)
         writeManagerContent(managerHTMLcontent)
-
+        if (managerAns.option === "Finish Building Team") {
+            endHTMLcontent()
+        } 
         if (managerAns.option === "Add an Engineer"){
             renderEngineerQuestions()
         }
         if (managerAns.option === "Add an Intern"){
             renderInternQuestions()
         }
-        if (managerAns.option === "Finish Building Team") {
-            endHTMLcontent()
-        }          
+                 
     })
 }
 
@@ -232,16 +239,16 @@ function renderEngineerQuestions(){
         const engineer = new Engineer(name, id, email, gitHubUserName)
         const engineerHTMLcontent = generateEngineerContent(engineer)
         appendEngineerContent(engineerHTMLcontent)
-        
+        if (engineerAns.option === "Finish Building Team"){
+            endHTMLcontent()
+        }
         if (engineerAns.option === "Add an Engineer"){
             renderEngineerQuestions()
         }
         if (engineerAns.option === "Add an Intern"){
             renderInternQuestions()
         }
-        if (engineerAns.option === "Finish Building Team"){
-            endHTMLcontent()
-        }
+      
     })
 }
 
@@ -253,16 +260,16 @@ function renderInternQuestions(){
         const intern = new Intern(name, id, email, school)
         const internHTMLcontent = generateInternContent(intern)
         appendInternContent(internHTMLcontent)
-
+        if (internAns.option === "Finish Building Team"){
+            endHTMLcontent()
+        }
         if (internAns.option === "Add an Engineer"){
             renderEngineerQuestions()
         }
         if (internAns.option === "Add an Intern"){
             renderInternQuestions()
         }
-        if (internAns.option === "Finish Building Team"){
-            endHTMLcontent()
-        }
+      
     })
 }
 renderManagerQuestions()
