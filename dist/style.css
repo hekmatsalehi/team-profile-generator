@@ -1,7 +1,9 @@
 
-.custom-header, .custom-card-header {
-    background-color: rgb(174, 77, 2);
+.custom-header {
+    height: 120px;
+  
 }
+
 .custom-title-color{
     color: #fff;
 }
@@ -12,7 +14,6 @@
     margin-left: 15px;
     border-radius: 10px 10px 0px 0px;
 
-    
 }
 
 .custom-card-header {
