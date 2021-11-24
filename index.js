@@ -9,7 +9,7 @@ const generateHTML = require('./src/generateHTML')
 const Choice = require('inquirer/lib/objects/choice')
 const { ChildProcess } = require('child_process')
 
-
+// Prompt manager questions and generate HTML for manager
 function renderManagerQuestions() {
     inquirer.prompt(questions.managerQuestions)
     .then(managerAns => {
@@ -38,6 +38,7 @@ function renderManagerQuestions() {
 
 }
 
+// Prompt Engineer questions and generate HTML card for engineer
 function renderEngineerQuestions(){
     inquirer
     .prompt(questions.engineerQuestions)
@@ -66,6 +67,7 @@ function renderEngineerQuestions(){
 
 }
 
+// Prompt Intern questions and generate HTML card for Intern
 function renderInternQuestions(){
     inquirer
     .prompt(questions.internQuestions)
@@ -93,6 +95,7 @@ function renderInternQuestions(){
 
 }
 
+// Write manager's HTML content
 const writeManagerContent = managerHTMLcontent => {
     fs.writeFile('./dist/index.html', managerHTMLcontent, err => {
         if (err) {
@@ -102,7 +105,7 @@ const writeManagerContent = managerHTMLcontent => {
     })
 }
 
-
+// Append Engineer card to HTML file
 const appendEngineerContent = engineerHTMLcontent => {
     fs.appendFile('./dist/index.html', engineerHTMLcontent, err => {
         if (err) {
@@ -111,6 +114,8 @@ const appendEngineerContent = engineerHTMLcontent => {
         } 
     })
 }
+
+// Append Intern card to HTML file
 const appendInternContent = internHTMLcontent => {
     fs.appendFile('./dist/index.html', internHTMLcontent, err => {
         if (err) {
@@ -125,6 +130,7 @@ const htmlEndTag = `
     </body>
 </html>`
 
+// Add ending tags to HTML file
 const endHTMLcontent = () => {
     fs.appendFile('./dist/index.html', htmlEndTag, err => {
         if (err) {
